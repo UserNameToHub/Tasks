@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 
+// В целом мне все понравилось, правки небольшие и больше по стилю, молодец
 public class CustomArrayList<E> implements CustomList<E> {
     private static final int DEFAULT_CAPACITY = 10;
     private Object[] array;
@@ -29,9 +30,10 @@ public class CustomArrayList<E> implements CustomList<E> {
         array[size++] = el;
     }
 
+    @SafeVarargs
     @Override
-    public void addAll(E... elements) {
-        Arrays.stream(elements).forEach(el -> add(el));
+    public final void addAll(E... elements) {
+        Arrays.stream(elements).forEach(this::add);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class CustomArrayList<E> implements CustomList<E> {
     @Override
     public void set(int index, E el) {
         checkIndexOutOfBounds(index);
-        if (size + 1 > capacity) extend(array);
+        if (size + 1 > capacity) extend(array); // не забывай про {} - это улучшает читаемость
         moveReverse(array, index);
         array[index] = el;
         size++;
